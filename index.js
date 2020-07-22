@@ -22,6 +22,8 @@ const paddle = {
   update: function() {
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.fill();
+
+    this.x += this.speed;
   }
 }
 
@@ -36,6 +38,8 @@ const init = () => {
 const collide = () => {}
 
 const loop = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   paddle.update();
 
   window.requestAnimationFrame(loop);
@@ -44,3 +48,9 @@ const loop = () => {
 init();
 loop();
 
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft') paddle.speed = -6;
+  if(e.key === 'ArrowRight') paddle.speed = 6;
+});
+
+document.addEventListener('keyup', () => paddle.speed = 0);

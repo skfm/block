@@ -51,9 +51,28 @@ const paddle = {
   }
 }
 
-const block = {}
+const block = {
+  width: null,
+  height: 20,
+  data: [],
 
-const level = []
+  update: function() {
+    this.data.forEach(brick => {
+      ctx.strokeRect(brick.x, brick.y, brick.width, brick.height);
+      ctx.stroke();
+    })
+  }
+}
+
+const level = [
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1],
+]
+
 
 const init = () => {
   paddle.x = canvas.width / 2 - paddle.width / 2;
@@ -63,6 +82,21 @@ const init = () => {
   ball.y = canvas.height / 2 + 50;
   ball.dx = ball.speed;
   ball.dy = ball.speed;
+
+  block.width = canvas.width / level[0].length;
+
+  for(let i=0; i < level.length; i++) {
+    for(let j=0; j < level[i].length; j++) {
+      if(level[i][j]) {
+        block.data.push({
+          x: block.width * j,
+          y: block.height * i,
+          width: block.width,
+          height: block.height
+        })
+      }
+    }
+  }
 }
 const collide = () => {}
 
@@ -71,6 +105,7 @@ const loop = () => {
 
   paddle.update();
   ball.update();
+  block.update();
 
   window.requestAnimationFrame(loop);
 }
